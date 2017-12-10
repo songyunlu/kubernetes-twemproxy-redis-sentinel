@@ -1,0 +1,19 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: twemproxy-config
+  labels:
+    k8s-app: twemproxy
+data:
+  twemproxy.yaml: |-
+    kube-twemproxy:
+      listen: 0.0.0.0:6379
+      hash: fnv1a_64
+      distribution: ketama
+      auto_eject_hosts: true
+      server_retry_timeout: 30000
+      server_failure_limit: 3
+      timeout: 500
+      redis: true
+      servers:
+       - redis:6379:1
