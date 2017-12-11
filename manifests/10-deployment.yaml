@@ -27,10 +27,45 @@ spec:
         ports:
         - containerPort: 6379
           name: redis
-          protocol: TCP
         volumeMounts:
         - name: config-volume
           mountPath: /etc/twemproxy/conf
+        livenessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+      - name: nutcracker-web
+        image: gn00023040/kubernetes-nutcracker-web
+        resources:
+          limits:
+            cpu: 1000m
+          requests:
+            cpu: 100m
+        ports:
+        - containerPort: 9292
+          name: web
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/twemproxy/conf
+        livenessProbe:
+          failureThreshold: 8
+          httpGet:
+            host: 127.0.0.1
+            path: /
+            port: 9292
+            scheme: HTTP
+          initialDelaySeconds: 15
+          timeoutSeconds: 15
       volumes:
       - name: config-volume
         configMap:

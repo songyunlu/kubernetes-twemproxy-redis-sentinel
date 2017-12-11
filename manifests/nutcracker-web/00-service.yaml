@@ -1,12 +1,13 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: twemproxy
+  name: nutcracker-web
   labels:
     k8s-app: twemproxy
 spec:
   ports:
-    - port: 6379
-      targetPort: 6379
+  - port: 9292
+    targetPort: web
+  type: NodePort
   selector:
     k8s-app: twemproxy
