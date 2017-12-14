@@ -1,6 +1,6 @@
 FROM alpine:3.7
 
-LABEL maintainer="Jimmy Lu <jimmylu@hyvesolutions.com>"
+LABEL maintainer="Jimmy Lu <gn00023040@gmail.com>"
 
 ENV RUBY_MAJOR=2.4 \
     RUBY_VERSION=2.4.2 \

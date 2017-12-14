@@ -1,5 +1,7 @@
 FROM alpine:3.7
 
+LABEL maintainer="Jimmy Lu <gn00023040@gmail.com>"
+
 ENV DI_VERSION=1.2.0 \
     DI_SHA=81231da1cd074fdc81af62789fead8641ef3f24b6b07366a1c34e5b059faf363
 
