@@ -2,6 +2,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: twemproxy
+  namespace: infra
   labels:
     k8s-app: twemproxy
     kubernetes.io/cluster-service: "true"
@@ -19,11 +20,11 @@ spec:
       containers:
       - name: twemproxy
         image: gn00023040/kubernetes-twemproxy:0.4.1
-        resources:
-          limits:
-            cpu: 1000m
-          requests:
-            cpu: 100m
+        #resources:
+        #  limits:
+        #    cpu: 1000m
+        #  requests:
+        #    cpu: 1000m
         ports:
         - containerPort: 6379
           name: redis
@@ -46,11 +47,11 @@ spec:
           timeoutSeconds: 1
       - name: nutcracker-web
         image: gn00023040/kubernetes-nutcracker-web:0.0.14
-        resources:
-          limits:
-            cpu: 1000m
-          requests:
-            cpu: 100m
+        #resources:
+        #  limits:
+        #    cpu: 1000m
+        #  requests:
+        #    cpu: 1000m
         ports:
         - containerPort: 9292
           name: web
@@ -60,7 +61,6 @@ spec:
         livenessProbe:
           failureThreshold: 8
           httpGet:
-            host: 127.0.0.1
             path: /
             port: 9292
             scheme: HTTP

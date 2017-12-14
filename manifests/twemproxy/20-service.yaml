@@ -1,0 +1,29 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: twemproxy
+  namespace: infra
+  labels:
+    k8s-app: twemproxy
+spec:
+  ports:
+  - port: 6379
+    targetPort: redis
+  selector:
+    k8s-app: twemproxy
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nutcracker-web
+  namespace: infra
+  labels:
+    k8s-app: twemproxy
+spec:
+  ports:
+  - port: 9292
+    targetPort: web
+  type: NodePort
+  selector:
+    k8s-app: twemproxy

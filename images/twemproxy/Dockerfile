@@ -1,6 +1,6 @@
 FROM alpine:3.7
 
-LABEL maintainer="Jimmy Lu <jimmylu@hyvesolutions.com>"
+LABEL maintainer="Jimmy Lu <gn00023040@gmail.com>"
 
 ARG TWEMPROXY_VERSION=0.4.1
 
@@ -28,6 +28,7 @@ RUN set -xe \
     && make install \
     && apk del .build-deps \
     && rm -rf \
+          /twemproxy-${TWEMPROXY_VERSION} \
           /var/cache/apk/* \
           /tmp/*
 

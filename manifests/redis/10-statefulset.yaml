@@ -1,0 +1,55 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: infra
+  labels:
+    k8s-app: redis
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: Reconcile
+spec:
+  serviceName: redis
+  replicas: 3
+  selector:
+    matchLabels:
+      k8s-app: redis
+  template:
+    metadata:
+      labels:
+        k8s-app: redis
+        kubernetes.io/cluster-service: "true"
+    spec:
+      containers:
+      - image: gn00023040/kubernetes-redis:4.0.6
+        name: redis
+        resources:
+          limits:
+            cpu: 1000m
+          requests:
+            cpu: 100m
+        env:
+        - name: MASTER
+          value: "true"
+        ports:
+        - containerPort: 6379
+          name: client
+        volumeMounts:
+        - name: redis
+          mountPath: /data
+        livenessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+      volumes:
+      - name: redis
+        emptyDir: {}

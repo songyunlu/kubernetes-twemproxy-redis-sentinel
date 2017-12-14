@@ -2,6 +2,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: twemproxy-config
+  namespace: infra
   labels:
     k8s-app: twemproxy
 data:
@@ -16,4 +17,6 @@ data:
       timeout: 500
       redis: true
       servers:
-       - redis:6379:1
+       - redis-0.redis.infra.svc.cluster.local:6379:1
+       - redis-1.redis.infra.svc.cluster.local:6379:1
+       - redis-2.redis.infra.svc.cluster.local:6379:1
